@@ -1,134 +1,130 @@
-# Library Management System - Kotlin Exercise
+# Kotlin Library Management System
 
-##  Project Overview
+A console-based Library Management System built with **Kotlin** and **Gradle**. The application demonstrates a layered design with models, a repository, a service layer, and a menu-driven console interface.
 
-This project is a simple **Library Management System** implemented in Kotlin. It serves as a hands-on exercise to practice Kotlin fundamentals and Gradle build tool basics. The code is intentionally incomplete - your task is to complete the implementation by following the application behavior.
+## Features
 
----
+- Add and list books.
+- Register and list library patrons.
+- Borrow available books and return borrowed books.
+- Enforce a maximum of three borrowed books per patron.
+- Search books by title or author (case-insensitive).
+- Report clear borrowing outcomes, including missing books or patrons, unavailable books, and borrowing-limit violations.
+- Seed the console application with sample books and a patron.
 
-##  Learning Objectives
+The application uses in-memory storage. Data is reset when the program is restarted.
 
-- Understand **Gradle** as a build tool (essential for Android development)
-- Practice **Kotlin** core language concepts
-- Navigate and complete an existing codebase
-- Build and run executable JAR files
+## Technology
 
----
+- Kotlin/JVM
+- Gradle Wrapper with Kotlin DSL
+- JDK 21 toolchain
+- JUnit Jupiter for tests
 
-##  Prerequisites & Setup
+## Project structure
 
-### 1. **Learn Gradle Basics**
-Gradle is the build tool we'll use throughout Android development. Complete the beginner tutorial:
-- [Gradle Getting Started Guide](https://docs.gradle.org/current/userguide/part1_gradle_init.html)
+```text
+kotlin__gradle_project/
+├── app/
+│   └── src/
+│       ├── main/kotlin/org/dbu/library/
+│       │   ├── model/        Book and Patron models
+│       │   ├── repository/   Repository interface and in-memory storage
+│       │   ├── service/      Library operations and borrowing results
+│       │   ├── ui/           Console menu and application entry point
+│       │   └── util/         Utility extensions
+│       └── test/kotlin/      JUnit tests
+├── gradle/
+├── gradlew
+├── gradlew.bat
+├── settings.gradle.kts
+└── app/build.gradle.kts
+```
 
-> ⚠️ **Note**: Download the latest Gradle version and practice in a separate project before returning to this one.
+## Prerequisites
 
-### 2. **Master Kotlin Fundamentals**
-Choose your learning path:
+- JDK 21 (the Gradle build uses a Java 21 toolchain).
+- Git.
 
-**Option A - Google's Android Pathway (Recommended for beginners):**
-- [Android Basics in Kotlin - Unit 1](https://developer.android.com/courses/pathways/android-basics-compose-unit-1-pathway-1)
+The included Gradle Wrapper downloads and uses the configured Gradle version, so a separate Gradle installation is not normally required.
 
-**Option B - Official Kotlin Documentation:**
-- [Kotlin Getting Started Guide](https://kotlinlang.org/docs/getting-started.html)
+## Clone the repository
 
-**Minimum Requirements:** Understand concepts covered in class + Chapter 3 materials.
+Run in Windows Command Prompt:
 
----
+```bat
+git clone https://github.com/kura458/kotlin__gradle_project.git
+cd kotlin__gradle_project
+```
 
+## Build and test
 
+On Windows:
 
-## 🎮 Your Task
+```bat
+gradlew.bat clean build
+gradlew.bat test
+```
 
-### **Primary Goal**
-Complete the missing implementation by:
+On Linux or macOS:
 
-1. **Run the provided JAR** to see how the application should behave:
-   ```bash
-   java -jar app.jar
-   ```
-   Observe all features and workflows.
-
-2. **Navigate to the entry point**: `ConsoleApp.kt`
-
-3. **Fill in all the blanks** (`TODO` sections) to make your code produce the same behavior as the runnable JAR.
-
----
-
-## 🚀 How to Build & Run
-
-### **Build the Project**
 ```bash
-# Clean and build
 ./gradlew clean build
-
-# Create runnable JAR
-./gradlew jar
-
-# Create distribution package
-./gradlew distZip
+./gradlew test
 ```
 
-### **Run the Application**
+## Run the application
+
+On Windows:
+
+```bat
+gradlew.bat run
+```
+
+On Linux or macOS:
+
 ```bash
-# Option 1: Run directly with Gradle
 ./gradlew run
-
-# Option 2: Run the JAR file
-java -jar build/libs/app.jar
-
-# Option 3: Run from distribution
-./gradlew distZip
-cd build/distributions/
-unzip app.zip
-cd app/bin
-./app  # (or app.bat on Windows)
 ```
 
----
+The program opens a console menu. Follow the numbered options and enter the requested book, patron, or ISBN details.
 
-## ✅ Expected Features (What the completed app should do)
+## Build a runnable JAR
 
-When complete, the application should:
+```bat
+gradlew.bat jar
+```
 
-- 📖 **Add books** to the library (ISBN, title, author, year)
-- 👤 **Register patrons** (ID, name, email, phone)
-- 📤 **Borrow books** (with availability and limit checks)
-- 📥 **Return books**
-- 🔍 **Search books** by title or author
-- 📋 **List all books** (available/borrowed status)
-- 👥 **View all patrons** and their borrowed books
+The JAR is generated in:
 
----
+```text
+app/build/libs/
+```
 
-## 📝 Implementation Notes
+The Gradle build configures a main class and includes runtime dependencies in the JAR. Run the generated JAR with:
 
-- The code follows a layered architecture:
-  - `model/` - Data classes (already complete)
-  - `repository/` - Data access interface (to be implemented)
-  - `service/` - Business logic (to be completed)
-  - `ui/` - Console interface (already complete)
+```bat
+java -jar app\build\libs\app.jar
+```
 
-- Focus on implementing the missing parts in:
-  - `InMemoryRepository.kt`
-  - `DefaultLibraryService.kt`
+If the generated filename differs, use the actual JAR name shown in app/build/libs/.
 
-- Use the runnable JAR as your **specification** - match its behavior exactly
+## Design overview
 
----
+- **Model:** represents books and patrons.
+- **Repository:** stores and retrieves records in memory.
+- **Service:** enforces library rules such as availability and borrowing limits.
+- **Console UI:** displays the menu and handles user input.
 
-## 🆘 Getting Help
+This separation keeps business logic independent from the console interaction and makes the service layer easier to test.
 
-If stuck:
-1. Review the Kotlin learning materials
-2. Check Gradle documentation
-3. Run the provided JAR to understand expected behavior
-4. Ask questions in group
+## Current limitations and possible improvements
 
+- Data is not persisted between runs.
+- Input validation and error messages can be expanded.
+- More edge-case tests would improve confidence in return, deletion, and repository behavior.
+- A database-backed repository could replace in-memory storage in a future version.
 
----
-# submission instruction
+## Author
 
-- Fork the Repository
-- Clone and Work on the Code
-- Commit Your Changes and Push to Your Fork
+Maintained by [kura458](https://github.com/kura458).
